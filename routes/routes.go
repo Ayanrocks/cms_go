@@ -12,4 +12,8 @@ func Routes(App *iris.Application) {
 		ctx.JSON(iris.Map{"message": "Pong!"})
 	})
 
+	App.Post("/posts/create", func(ctx iris.Context) {
+
+	})
+
 }
