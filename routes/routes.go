@@ -1,10 +1,15 @@
 package routes
 
-import "github.com/kataras/iris"
+import (
+	"github.com/cms/Database"
+	"github.com/kataras/iris"
+)
 
 //Route file
 func Routes(App *iris.Application) {
 	App.Handle("GET", "/", func(ctx iris.Context) {
+		Database.Connect()
+
 		ctx.HTML("<h1>Welcome to IRIS NEW</h1>")
 	})
 
