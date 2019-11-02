@@ -1,28 +1,23 @@
 package Database
 
-import "github.com/go-pg/pg"
+import (
+	"database/sql"
+
+	"github.com/kataras/golog"
+
+	_ "github.com/lib/pq"
+)
 
 func Connect() {
-	db := pg.Connect(&pg.Options{
-		User:     "postgres",
-		Password: "qwerty",
-	})
-	defer db.Close()
+	connStr := "user=pqgotest dbname=pqgotest sslmode=verify-full"
 
-	// err := createSchema(db)
-	// if err != nil {
-	//     panic(err)
-	// }
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		golog.Fatal(err)
+	}
+
+	defer func() {
+		golog.Debug("Closing DB")
+		db.Close()
+	}()
 }
-
-// func createSchema(db *pg.DB) error {
-//     for _, model := range []interface{}{(*User)(nil), (*Story)(nil)} {
-//         err := db.CreateTable(model, &orm.CreateTableOptions{
-//             Temp: true,
-//         })
-//         if err != nil {
-//             return err
-//         }
-//     }
-//     return nil
-// }
