@@ -8,26 +8,25 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// DB Variable
+var DB *sql.DB
+
+// Connect Function
 func Connect() {
 	connStr := "user=ayanrocks password=qwerty dbname=gocms sslmode=disable"
 
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		golog.Fatal(err)
-	}
-
-	row, err := db.Query(`INSERT INTO posts.posts(name, content) VALUES ('How to sample?', 'Post is vrry short')`)
-
+	DB, err := sql.Open("postgres", connStr)
 	if err != nil {
 		golog.Error(err)
 	}
 
-	golog.Debug(row)
+	golog.Debug("DataBase Connected ", DB)
+	// golog.Debug(DB.Ping())
 
-	golog.Debug(db.Ping())
+	// defer func() {
+	// 	golog.Debug("Closing DB")
+	// 	DB.Close()
+	// }()
 
-	defer func() {
-		golog.Debug("Closing DB")
-		db.Close()
-	}()
+	defer DB.Close()
 }

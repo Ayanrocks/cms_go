@@ -1,20 +1,19 @@
 package Database
 
-func Insert() {
+import (
+	"github.com/cms/types"
+	"github.com/kataras/golog"
+)
 
-	// post := types.Post{
-	// 	ID:         1,
-	// 	Name:       "TEST",
-	// 	Content:    "hellos",
-	// 	CreatedAt:  time.Now(),
-	// 	UpdatedAt:  time.Now(),
-	// 	ImagesLink: []string{},
-	// }
+// INSERT function
+func Insert(data types.Post) error {
+	golog.Debug(DB, data.ImageLinks)
+	_, err := DB.Query(`INSERT INTO posts.posts(name, content, imagesLink) VALUES ($1, $2, $3)`, data.Name, data.Content, data.ImageLinks)
 
-	// res, err := DB.Query("INSERT into posts.posts VALUES (?id,?name,?content)", post)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// golog.Debug(res)
-	// golog.Debug("POST INSERTED")
+	if err != nil {
+		golog.Error(err)
+		return err
+	}
+
+	return nil
 }
