@@ -15,16 +15,17 @@ func Routes(App *iris.Application) {
 	})
 
 	App.Get("/ping", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{"message": "Pong!"})
+		_, _ = ctx.JSON(iris.Map{"message": "Pong!"})
 	})
 
+	// Create Post
 	App.Post("/posts/create", func(ctx iris.Context) {
 		var data types.Post
 		err := ctx.ReadJSON(&data)
 		if err != nil {
 			golog.Error("PARSE ", err)
 			ctx.StatusCode(iris.StatusBadRequest)
-			ctx.WriteString(err.Error())
+			_, _ = ctx.WriteString(err.Error())
 			return
 		}
 
@@ -37,7 +38,11 @@ func Routes(App *iris.Application) {
 
 		}
 
-		ctx.JSONP(map[string]string{"msg": "SUCCESS"})
+		_, _ = ctx.JSONP(map[string]string{"msg": "SUCCESS"})
+	})
+
+	App.Get("/posts/${id}", func(ctx iris.Context) {
+		err := Database.r
 	})
 
 }

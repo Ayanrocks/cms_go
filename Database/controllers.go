@@ -17,3 +17,17 @@ func Insert(data types.Post) error {
 
 	return nil
 }
+
+// Read Function
+func Read(id string) (error, types.Post) {
+	golog.Debug("reading DataBase")
+	Post, err := DB.Query(`SELECT * FROM posts.posts WHERE id=$1`, id)
+	if err != nil {
+		golog.Error(err)
+		return err, types.Post{}
+
+	}
+	data, err := Post.Columns()
+
+	return nil, data
+}
